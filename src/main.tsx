@@ -3,6 +3,7 @@ import { Router } from "@solidjs/router"
 import { render } from "solid-js/web"
 
 import { Index } from "./app"
+import "./flyfish/brand.css"
 
 declare global {
   interface Window {

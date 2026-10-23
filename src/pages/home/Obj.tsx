@@ -78,6 +78,7 @@ export const Obj = () => {
   )
   return (
     <VStack
+      id="flyfish-files"
       ref={(el: HTMLDivElement) => setObjBoxRef(el)}
       class="obj-box"
       w="$full"

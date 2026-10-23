@@ -1,5 +1,10 @@
 # OpenList (frontend)
 
+Flyfish's deployment branch adds a branded resource hub and browser-local File
+Viewer integration. Start with [FLYFISH.md](./FLYFISH.md) for builds, the support
+matrix, routing policy, privacy boundaries and deployment instructions. Upstream
+OpenList credits and MIT licensing are retained below.
+
 ![License MIT](https://img.shields.io/badge/license-MIT-green)
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/OpenListTeam/OpenList-Frontend)](./package.json)
 [![NPM Version](https://img.shields.io/npm/v/%40openlist-frontend%2Fopenlist-frontend)](https://www.npmjs.com/package/@openlist-frontend/openlist-frontend)

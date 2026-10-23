@@ -4,6 +4,7 @@ import { Obj, ObjType, UserMethods, UserPermissions, ArchiveObj } from "~/types"
 import { ext } from "~/utils"
 import { generateIframePreview } from "./iframe"
 import { useRouter, useT } from "~/hooks"
+import { fileViewerPolicy } from "~/flyfish/preview-policy"
 
 type Ext = string[] | "*" | ((name: string) => boolean)
 type Prior = boolean | (() => boolean)
@@ -40,7 +41,11 @@ export interface Preview {
 export interface PreviewComponent {
   key: string
   name: string
-  component: Component
+  component: Component<{
+    images?: Obj[]
+    navigate?: (name: string) => void
+    openWith?: boolean
+  }>
 }
 
 const previews: Preview[] = [
@@ -234,6 +239,24 @@ export const getPreviews = (
         }
       }
     })
+  }
+  const canReadArchives = isShare()
+    ? getSettingBool("share_archive_preview")
+    : UserMethods.can(me(), UserPermissions.indexOf("read_archives"))
+  const flyfish = fileViewerPolicy(file.name, canReadArchives)
+  if (
+    (!isShare() || getSettingBool("share_preview")) &&
+    !isInArchive &&
+    flyfish.available
+  ) {
+    const preview: PreviewComponent = {
+      key: "flyfish",
+      name: "Flyfish File Viewer",
+      component: lazy(() => import("./flyfish")),
+    }
+    if (downloadPrior) subsequent.push(preview)
+    else if (flyfish.preferred) res.unshift(preview)
+    else res.push(preview)
   }
   // iframe previews
   const iframePreviews = getIframePreviews(file.name)

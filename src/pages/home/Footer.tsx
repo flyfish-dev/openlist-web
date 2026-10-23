@@ -21,6 +21,19 @@ export const Footer = () => {
           {t(UserMethods.is_guest(me()) ? "login.login" : "home.footer.manage")}
         </AnchorWithBase>
       </HStack>
+      <HStack class="flyfish-source-link" spacing="$2">
+        <Anchor href="https://github.com/flyfish-dev/openlist" external>
+          后端源码
+        </Anchor>
+        <span>·</span>
+        <Anchor href="https://github.com/flyfish-dev/openlist-web" external>
+          Flyfish 界面与预览集成
+        </Anchor>
+        <span>·</span>
+        <Anchor href="https://github.com/flyfish-dev/file-viewer" external>
+          File Viewer
+        </Anchor>
+      </HStack>
     </VStack>
   )
 }

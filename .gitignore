@@ -6,3 +6,4 @@ dist
 .idea
 .test
 .codebuddy
+public/file-viewer/

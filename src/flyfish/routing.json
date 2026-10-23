@@ -1,0 +1,3 @@
+{
+  "nativeFirstRendererIds": ["image", "audio", "video", "pdf", "markdown", "code", "archive"]
+}

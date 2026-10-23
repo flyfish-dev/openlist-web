@@ -36,7 +36,7 @@ export type ItemProps = DriverItem & {
         value: number | Accessor<number>
       }
     | {
-        type: Type.String | Type.Text
+        type: Type.String | Type.Text | Type.MultiPath
         onChange?: (value: string) => void
         value: string | Accessor<string>
       }
@@ -47,6 +47,35 @@ export type ItemProps = DriverItem & {
         value: string | Accessor<string>
       }
   )
+
+export function driverItemProps(
+  item: DriverItem,
+  value: unknown,
+  onChange: (value: string | number | boolean) => void,
+): ItemProps {
+  switch (item.type) {
+    case Type.Bool:
+      return {
+        ...item,
+        type: Type.Bool,
+        value: value === true || value === "true",
+        onChange,
+      }
+    case Type.Number:
+      return { ...item, type: Type.Number, value: Number(value), onChange }
+    case Type.Float:
+      return { ...item, type: Type.Float, value: Number(value), onChange }
+    case Type.Select:
+      return {
+        ...item,
+        type: Type.Select,
+        value: String(value ?? ""),
+        onChange,
+      }
+    default:
+      return { ...item, type: item.type, value: String(value ?? ""), onChange }
+  }
+}
 
 const Item = (props: ItemProps) => {
   const t = useT()
@@ -118,13 +147,13 @@ const Item = (props: ItemProps) => {
             }
           />
         </Match>
-        <Match when={props.type === Type.Text}>
+        <Match when={props.type === Type.Text || props.type === Type.MultiPath}>
           <Textarea
             id={props.name}
             readOnly={props.readonly}
             value={getVal(props.value as string | Accessor<string>)}
             onChange={
-              props.type === Type.Text
+              props.type === Type.Text || props.type === Type.MultiPath
                 ? (e) => props.onChange?.(e.currentTarget.value)
                 : undefined
             }

@@ -1,0 +1,502 @@
+@import "@fontsource-variable/manrope";
+
+.flyfish-site {
+  --ff-ink: #102c33;
+  --ff-muted: #597279;
+  --ff-green: #158362;
+  --ff-blue: #1484dd;
+  --ff-line: rgba(30, 89, 91, 0.13);
+  min-height: 100vh;
+  font-family: "Manrope Variable", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background:
+    radial-gradient(ellipse at 85% 6%, #d8f3e766, transparent 40%),
+    radial-gradient(ellipse at 5% 24%, #dcefff88, transparent 42%), #f6f9f7;
+  color: var(--ff-ink);
+}
+.flyfish-site .header {
+  border-bottom: 1px solid var(--ff-line);
+  background: #f9fcfae8;
+  backdrop-filter: blur(18px);
+}
+.flyfish-site .header > div,
+.flyfish-site .body {
+  width: min(94vw, 1240px);
+  max-width: 1240px;
+  margin-inline: auto;
+}
+.flyfish-site .body {
+  min-height: 40vh;
+  padding-top: 30px;
+  padding-bottom: 48px;
+}
+.flyfish-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--ff-ink);
+}
+.flyfish-brand img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+.flyfish-brand strong {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+  line-height: 1.1;
+}
+.flyfish-brand strong span {
+  color: var(--ff-green);
+  margin-left: 4px;
+  font-weight: 500;
+}
+.flyfish-brand small {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  margin-top: 5px;
+  color: var(--ff-muted);
+}
+.flyfish-matrix-trigger {
+  border: 1px solid var(--ff-line);
+  padding: 8px 13px;
+  border-radius: 99px;
+  font: inherit;
+  font-size: 12px;
+  white-space: nowrap;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.flyfish-matrix-trigger span {
+  margin-left: 10px;
+  color: var(--ff-green);
+}
+.flyfish-hero {
+  position: relative;
+  width: min(90vw, 1180px);
+  margin: 34px auto 18px;
+  padding: 58px 44px 0;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  overflow: hidden;
+  border-radius: 30px;
+  border: 1px solid #dbe8e1;
+  background: linear-gradient(115deg, #fbfdfb 25%, #eaf5ef 100%);
+  animation: ff-arrive 600ms ease both;
+}
+.flyfish-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ff-green);
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+.flyfish-eyebrow i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #21ad7b;
+  box-shadow: 0 0 0 4px #21ad7b15;
+}
+.flyfish-hero h1 {
+  font-size: clamp(38px, 5vw, 67px);
+  line-height: 1.22;
+  font-weight: 600;
+  letter-spacing: -3px;
+  margin: 22px 0;
+}
+.flyfish-hero h1 em {
+  font-style: normal;
+  background: linear-gradient(100deg, #11785e, #1687b3);
+  color: transparent;
+  background-clip: text;
+}
+.flyfish-intro {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--ff-muted);
+}
+.flyfish-hero-actions {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  margin: 28px 0 50px;
+  font-size: 12px;
+}
+.flyfish-hero-actions a {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ff-ink);
+}
+.flyfish-hero-actions a:first-child {
+  color: #fff;
+  padding: 12px 19px;
+  border-radius: 8px;
+  background: #133b3c;
+}
+.flyfish-orbit {
+  position: relative;
+  min-height: 338px;
+  display: grid;
+  place-items: center;
+  background-image: radial-gradient(#174c3e13 1px, transparent 1px);
+  background-size: 15px 15px;
+}
+.flyfish-orbit > img {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 18px 20px #278b6930);
+  transform: rotate(-8deg);
+}
+.flyfish-orbit-ring {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border: 1px solid #96c8b777;
+  border-radius: 50%;
+  transform: rotate(-28deg) scaleY(0.7);
+}
+.flyfish-orbit-ring.second {
+  width: 350px;
+  height: 350px;
+  transform: rotate(30deg) scaleY(0.7);
+}
+.flyfish-orbit-label {
+  position: absolute;
+  border: 1px solid #cfe4da;
+  box-shadow: 0 10px 30px #184c2910;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #ffffffdd;
+  backdrop-filter: blur(5px);
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--ff-muted);
+}
+.flyfish-orbit-label b {
+  margin-left: 8px;
+  font-weight: 500;
+  color: var(--ff-ink);
+  font-size: 11px;
+}
+.label-one {
+  left: 8%;
+  top: 12%;
+  transform: rotate(-7deg);
+}
+.label-two {
+  right: 0;
+  top: 46%;
+  transform: rotate(7deg);
+}
+.label-three {
+  left: 10%;
+  bottom: 14%;
+  transform: rotate(-4deg);
+}
+.flyfish-orbit > p {
+  position: absolute;
+  bottom: 1%;
+  color: #728e83;
+  font-size: 8px;
+  letter-spacing: 2px;
+}
+.flyfish-principles {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--ff-line);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 19px 0;
+  font-size: 10px;
+  color: var(--ff-muted);
+}
+.flyfish-principles b {
+  color: var(--ff-green);
+  margin-right: 8px;
+  font-size: 9px;
+}
+.flyfish-site .obj-box {
+  border: 1px solid var(--ff-line);
+  box-shadow: 0 8px 30px #224c3806;
+  padding: 15px;
+  border-radius: 18px;
+}
+.flyfish-site .footer {
+  color: var(--ff-muted);
+  font-size: 11px;
+  border-top: 1px solid var(--ff-line);
+  background: #f0f5f1;
+}
+.flyfish-site .footer a {
+  color: var(--ff-green);
+}
+.flyfish-source-link {
+  margin-top: 8px;
+  font-size: 10px;
+  letter-spacing: 0.2px;
+}
+.flyfish-matrix {
+  width: min(1000px, 94vw);
+  max-height: 90vh;
+  padding: 28px;
+  border: 1px solid #cddfd5;
+  border-radius: 20px;
+  color: #16352d;
+  background: #f9fcfa;
+  box-shadow: 0 25px 100px #0b2c4333;
+  margin: auto;
+}
+.flyfish-matrix::backdrop {
+  background: #0b273866;
+  backdrop-filter: blur(5px);
+}
+.flyfish-matrix-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+}
+.flyfish-matrix-heading h2 {
+  font-size: 27px;
+  letter-spacing: -1px;
+  margin: 10px 0;
+}
+.flyfish-matrix-heading button {
+  font: inherit;
+  font-size: 24px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.flyfish-matrix > p {
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 12px 0;
+  color: #557167;
+}
+.flyfish-matrix .flyfish-matrix-note {
+  font-size: 11px;
+  background: #edf4ef;
+  padding: 12px;
+  border-radius: 8px;
+}
+.flyfish-matrix input {
+  width: 100%;
+  padding: 11px;
+  background: white;
+  border: 1px solid #cadae0;
+  border-radius: 8px;
+  margin-bottom: 14px;
+  font: inherit;
+  font-size: 12px;
+}
+.flyfish-matrix-scroll {
+  max-height: 44vh;
+  overflow: auto;
+}
+.flyfish-matrix table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: left;
+  font-size: 11px;
+}
+.flyfish-matrix th {
+  position: sticky;
+  top: 0;
+  background: #eaf2ed;
+  padding: 10px;
+  font-weight: 600;
+}
+.flyfish-matrix td {
+  padding: 11px 10px;
+  border-bottom: 1px solid #dce8e0;
+  max-width: 280px;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+.flyfish-matrix td:first-child {
+  width: 26%;
+}
+.flyfish-matrix small {
+  display: block;
+  color: #698276;
+  font-size: 9px;
+  line-height: 1.6;
+  margin-top: 4px;
+}
+.flyfish-experimental {
+  color: #a26816;
+}
+.flyfish-matrix-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  gap: 15px;
+  padding-top: 16px;
+}
+.flyfish-preview {
+  width: 100%;
+}
+.flyfish-preview-meta {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  font:
+    10px "Manrope Variable",
+    sans-serif;
+  padding: 12px;
+  border-bottom: 1px solid var(--ff-line);
+  color: var(--ff-muted);
+}
+.flyfish-preview-meta b {
+  margin-left: 10px;
+  color: var(--ff-green);
+  font-weight: 500;
+}
+.flyfish-viewer-host {
+  width: 100%;
+  min-height: 560px;
+  height: 74vh;
+  contain: layout;
+}
+.flyfish-preview-notice,
+.flyfish-preview-error,
+.flyfish-preview-loading {
+  padding: 10px 12px;
+  font-size: 11px;
+  line-height: 1.7;
+}
+.flyfish-preview-error {
+  color: #b44535;
+  background: #fff1ec;
+}
+.flyfish-preview-notice {
+  background: #fff7e7;
+  color: #8a611c;
+}
+[data-theme="dark"] .flyfish-site,
+.hope-ui-dark .flyfish-site {
+  --ff-ink: #e0efe8;
+  --ff-muted: #92ada2;
+  --ff-line: #94c3b32b;
+  --ff-green: #54cfaa;
+  background:
+    radial-gradient(ellipse at 80% 2%, #153c32, transparent 50%), #12241f;
+}
+[data-theme="dark"] .flyfish-hero,
+.hope-ui-dark .flyfish-hero {
+  background: linear-gradient(115deg, #162e27, #183d36);
+  border-color: #315449;
+}
+[data-theme="dark"] .flyfish-site .header,
+.hope-ui-dark .flyfish-site .header,
+[data-theme="dark"] .flyfish-site .footer,
+.hope-ui-dark .flyfish-site .footer {
+  background: #142c24ee;
+}
+@keyframes ff-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 700px) {
+  .flyfish-brand strong {
+    font-size: 19px;
+  }
+  .flyfish-brand small {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+  .flyfish-brand img {
+    width: 31px;
+    height: 31px;
+  }
+  .flyfish-brand {
+    gap: 8px;
+  }
+  .flyfish-matrix-trigger {
+    padding: 6px 9px;
+    font-size: 10px;
+  }
+  .flyfish-matrix-trigger span {
+    margin-left: 3px;
+  }
+  .flyfish-site .flyfish-search-trigger {
+    width: 32px;
+    justify-content: center;
+  }
+  .flyfish-site .flyfish-search-trigger > :not(svg) {
+    display: none;
+  }
+  .flyfish-hero {
+    grid-template-columns: 1fr;
+    padding: 28px 24px 0;
+    margin-top: 18px;
+    border-radius: 20px;
+  }
+  .flyfish-hero h1 {
+    letter-spacing: -2px;
+    font-size: 43px;
+    margin: 17px 0;
+  }
+  .flyfish-orbit {
+    display: none;
+  }
+  .flyfish-intro {
+    font-size: 12px;
+  }
+  .flyfish-hero-actions {
+    margin: 22px 0 26px;
+  }
+  .flyfish-principles {
+    flex-direction: column;
+    gap: 9px;
+    font-size: 9px;
+    padding: 15px 0;
+  }
+  .flyfish-site .body {
+    width: 96vw;
+    padding-top: 14px;
+    padding-inline: 8px;
+  }
+  .flyfish-site .obj-box {
+    padding: 7px;
+    border-radius: 12px;
+  }
+  .flyfish-matrix {
+    padding: 18px;
+  }
+  .flyfish-matrix-heading h2 {
+    font-size: 21px;
+  }
+  .flyfish-matrix td {
+    padding: 8px 5px;
+    font-size: 10px;
+  }
+  .flyfish-matrix td:first-child {
+    width: 24%;
+  }
+  .flyfish-viewer-host {
+    min-height: 460px;
+    height: 72vh;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flyfish-hero {
+    animation: none;
+  }
+}
