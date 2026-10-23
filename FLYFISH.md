@@ -12,7 +12,7 @@ Use Node.js 24 and the package-manager version pinned in `package.json`:
 corepack pnpm install --frozen-lockfile
 corepack pnpm lint
 corepack pnpm test:flyfish
-NODE_OPTIONS=--max-old-space-size=8192 corepack pnpm build
+NODE_OPTIONS=--max-old-space-size=12288 corepack pnpm build
 ```
 
 The prebuild step derives the public support matrix from the installed renderer
@@ -23,7 +23,7 @@ Generated engine assets are deliberately excluded from Git. Deploy **all** of
 `dist`, not just JavaScript files. The current deployment contract is a root-path
 installation behind HTTPS; a separate cross-origin asset CDN is not supported.
 The complete optional-engine/legacy build needs an adequately sized build host;
-the 8 GiB Node heap allowance is not a server runtime memory requirement.
+the 12 GiB Node heap allowance is not a server runtime memory requirement.
 
 ## Preview Routing
 
@@ -50,6 +50,11 @@ endpoint. Add `preferredExtensions` from the generated catalog to OpenList's
 to third-party online-office services. Archive-read and share-preview permission
 checks are retained. Nested archive documents use the archive engine's own
 viewer rather than a mismatched root-file URL.
+
+For share pages, enable OpenList's `share_preview` setting and leave
+`share_preview_download_by_default` off when a preview should open first.
+`share_archive_preview` remains a separate permission gate; enabling ordinary
+document previews does not enable archive browsing or publish private storage.
 
 ## Deployment And Licenses
 
