@@ -32,6 +32,7 @@ export const Center = () => {
           bottom="$4"
           left="50%"
           w="max-content"
+          maxW="calc(100vw - 24px)"
           color="$neutral11"
           transform="translateX(-50%)"
         >
@@ -46,7 +47,10 @@ export const Center = () => {
             <HStack
               p="$2"
               bgColor={useColorModeValue("white", "#000000d0")()}
-              spacing="$1"
+              spacing="0"
+              gap="$1"
+              flexWrap="wrap"
+              justifyContent="center"
               shadow="0px 10px 30px -5px rgba(0, 0, 0, 0.3)"
               rounded="$lg"
               css={{

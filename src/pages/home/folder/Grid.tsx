@@ -23,9 +23,9 @@ const GridLayout = () => {
         class="viselect-container"
         w="$full"
         gap="$1"
-        templateColumns={`repeat(auto-fill, minmax(${
+        templateColumns={`repeat(auto-fill, minmax(min(100%, ${
           parseInt(local["grid_item_size"]) + 20
-        }px,1fr))`}
+        }px),1fr))`}
       >
         <For each={objStore.objs}>
           {(obj, i) => {

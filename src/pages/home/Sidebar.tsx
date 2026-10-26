@@ -78,6 +78,8 @@ function SidebarPanel() {
       top={3}
       h="calc(100vh - 6px)"
       minW={180}
+      w="min(280px, calc(100vw - 24px))"
+      maxW="calc(100vw - 24px)"
       p="$2"
       overflow="auto"
       shadow="$lg"

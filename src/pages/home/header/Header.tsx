@@ -29,6 +29,7 @@ export const Header = () => {
     >
       <Container>
         <HStack
+          class="flyfish-header-inner"
           px="calc(2% + 0.5rem)"
           py="$2"
           w="$full"

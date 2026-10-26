@@ -93,6 +93,7 @@ function createSurface(): ResidentSurface<HTMLElement> {
   const host = document.createElement("div")
   host.className = "flyfish-resident-surface"
   host.style.width = "100%"
+  host.style.height = "100%"
   parked.append(host)
   document.body.append(parked)
   const controller = mountViewer(host, viewerInput({}))
@@ -101,11 +102,13 @@ function createSurface(): ResidentSurface<HTMLElement> {
   return {
     attach(target) {
       host.style.width = "100%"
+      host.style.height = "100%"
       target.replaceChildren(host)
     },
     park() {
-      const width = host.getBoundingClientRect().width
+      const { width, height } = host.getBoundingClientRect()
       if (width > 0) host.style.width = `${width}px`
+      if (height > 0) host.style.height = `${height}px`
       parked.append(host)
     },
     update: (source) => controller.update(viewerInput(source)),

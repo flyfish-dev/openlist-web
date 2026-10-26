@@ -6,6 +6,10 @@
   --ff-green: #158362;
   --ff-blue: #1484dd;
   --ff-line: rgba(30, 89, 91, 0.13);
+  --ff-page-width: 1180px;
+  --ff-page-gutter: clamp(12px, 3vw, 32px);
+  width: 100%;
+  min-width: 0;
   min-height: 100vh;
   font-family: "Manrope Variable", "PingFang SC", "Microsoft YaHei", sans-serif;
   background:
@@ -18,16 +22,40 @@
   background: #f9fcfae8;
   backdrop-filter: blur(18px);
 }
-.flyfish-site .header > div,
-.flyfish-site .body {
-  width: min(94vw, 1240px);
-  max-width: 1240px;
+.flyfish-site .flyfish-container,
+.flyfish-hero {
+  box-sizing: border-box;
+  width: min(calc(100% - 2 * var(--ff-page-gutter)), var(--ff-page-width));
+  max-width: calc(100% - 2 * var(--ff-page-gutter));
+  min-width: 0;
   margin-inline: auto;
 }
+.flyfish-site .flyfish-container {
+  padding-inline: 0;
+}
+.flyfish-site .flyfish-header-inner {
+  min-width: 0;
+  padding-inline: 0;
+  gap: 16px;
+}
+.flyfish-site .header-left,
+.flyfish-site .header-right {
+  min-width: 0;
+  flex-shrink: 0;
+}
 .flyfish-site .body {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
   min-height: 40vh;
-  padding-top: 30px;
-  padding-bottom: 48px;
+  padding: 24px 0 48px;
+}
+.flyfish-site .body > *,
+.flyfish-site .obj-box > * {
+  min-width: 0;
+  max-width: 100%;
 }
 .flyfish-brand {
   display: flex;
@@ -71,17 +99,19 @@
   color: inherit;
   cursor: pointer;
 }
-.flyfish-matrix-trigger span {
+.flyfish-matrix-trigger .flyfish-matrix-arrow {
   margin-left: 10px;
   color: var(--ff-green);
 }
+.flyfish-matrix-short {
+  display: none;
+}
 .flyfish-hero {
   position: relative;
-  width: min(90vw, 1180px);
   margin: 34px auto 18px;
   padding: 58px 44px 0;
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   overflow: hidden;
   border-radius: 30px;
   border: 1px solid #dbe8e1;
@@ -124,6 +154,7 @@
 }
 .flyfish-hero-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 24px;
   align-items: center;
   margin: 28px 0 50px;
@@ -225,16 +256,69 @@
   font-size: 9px;
 }
 .flyfish-site .obj-box {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
   border: 1px solid var(--ff-line);
   box-shadow: 0 8px 30px #224c3806;
   padding: 15px;
   border-radius: 18px;
+}
+.flyfish-site .list,
+.flyfish-site .list > div,
+.flyfish-site .list .name-box,
+.flyfish-site .list .name {
+  min-width: 0;
+  max-width: 100%;
+}
+.flyfish-site .list > .title,
+.flyfish-site .list .list-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 6.5rem 12rem;
+  align-items: center;
+  column-gap: 16px;
+}
+.flyfish-site .list > .title > *,
+.flyfish-site .list .list-item > * {
+  width: auto;
+  min-width: 0;
+  margin-inline: 0;
+}
+.flyfish-site .list .list-item {
+  min-height: 48px;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+.flyfish-site .list .list-item:hover {
+  transform: none;
+}
+.flyfish-site .list .list-item:focus-visible {
+  outline: 2px solid var(--ff-green);
+  outline-offset: 1px;
+}
+.flyfish-site .list .name-box > :not(.name) {
+  flex-shrink: 0;
+}
+.flyfish-site .list .name {
+  flex: 1 1 auto;
 }
 .flyfish-site .footer {
   color: var(--ff-muted);
   font-size: 11px;
   border-top: 1px solid var(--ff-line);
   background: #f0f5f1;
+  padding-inline: var(--ff-page-gutter);
+}
+.flyfish-site .footer > div {
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.flyfish-site .footer > div > * {
+  margin-inline: 0;
 }
 .flyfish-site .footer a {
   color: var(--ff-green);
@@ -344,6 +428,19 @@
 }
 .flyfish-preview {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+.flyfish-site .flyfish-preview-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  min-width: 0;
+}
+.flyfish-site .flyfish-preview-controls > * {
+  min-width: 0;
+  max-width: 100%;
+  margin-inline: 0;
 }
 .flyfish-preview-meta {
   display: flex;
@@ -364,9 +461,15 @@
 }
 .flyfish-viewer-host {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   min-height: 560px;
   height: 74vh;
   contain: layout;
+}
+.flyfish-resident-surface {
+  min-width: 0;
+  min-height: 0;
 }
 .flyfish-preview-notice,
 .flyfish-preview-error,
@@ -413,6 +516,26 @@
     transform: translateY(0);
   }
 }
+@media (max-width: 900px) {
+  .flyfish-hero {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 36px 30px 0;
+  }
+  .flyfish-orbit {
+    display: none;
+  }
+}
+@media (max-width: 767px) {
+  .flyfish-site .list > .title,
+  .flyfish-site .list .list-item {
+    grid-template-columns: minmax(0, 1fr) 4.5rem;
+    column-gap: 12px;
+  }
+  .flyfish-site .list > .title > :nth-child(3),
+  .flyfish-site .list .modified {
+    display: none;
+  }
+}
 @media (max-width: 700px) {
   .flyfish-brand strong {
     font-size: 19px;
@@ -432,7 +555,7 @@
     padding: 6px 9px;
     font-size: 10px;
   }
-  .flyfish-matrix-trigger span {
+  .flyfish-matrix-trigger .flyfish-matrix-arrow {
     margin-left: 3px;
   }
   .flyfish-site .flyfish-search-trigger {
@@ -469,9 +592,7 @@
     padding: 15px 0;
   }
   .flyfish-site .body {
-    width: 96vw;
     padding-top: 14px;
-    padding-inline: 8px;
   }
   .flyfish-site .obj-box {
     padding: 7px;
@@ -493,6 +614,21 @@
   .flyfish-viewer-host {
     min-height: 460px;
     height: 72vh;
+  }
+}
+@media (max-width: 480px) {
+  .flyfish-site .flyfish-header-inner {
+    gap: 8px;
+  }
+  .flyfish-matrix-label,
+  .flyfish-matrix-trigger .flyfish-matrix-arrow {
+    display: none;
+  }
+  .flyfish-matrix-short {
+    display: inline;
+  }
+  .flyfish-hero {
+    padding-inline: 22px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

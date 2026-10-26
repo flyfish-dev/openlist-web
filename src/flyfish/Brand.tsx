@@ -100,8 +100,18 @@ export function FormatMatrix() {
   )
   return (
     <>
-      <button class="flyfish-matrix-trigger" onClick={() => dialog.showModal()}>
-        预览能力 <span>↗</span>
+      <button
+        class="flyfish-matrix-trigger"
+        aria-label="预览能力"
+        onClick={() => dialog.showModal()}
+      >
+        <span class="flyfish-matrix-label">预览能力</span>
+        <span class="flyfish-matrix-short" aria-hidden="true">
+          格式
+        </span>
+        <span class="flyfish-matrix-arrow" aria-hidden="true">
+          ↗
+        </span>
       </button>
       <dialog
         ref={dialog}

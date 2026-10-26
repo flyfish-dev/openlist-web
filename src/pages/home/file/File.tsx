@@ -24,7 +24,7 @@ const File = () => {
   return (
     <Show when={previews.length > 1} fallback={<Download openWith />}>
       <VStack w="$full" spacing="$2">
-        <HStack w="$full" spacing="$2">
+        <HStack class="flyfish-preview-controls" w="$full" spacing="$2">
           <SelectWrapper
             alwaysShowBorder
             value={cur()?.key || ""}

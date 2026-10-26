@@ -83,6 +83,14 @@ a service-worker cache or an external conversion service by this feature.
 
 ## Deployment And Licenses
 
+The home header, hero and file area share one parent-relative container with
+fluid gutters and an 1180 px content limit. File rows use shrinkable grid tracks,
+not percentages plus flex gaps; narrow screens keep filename/size, while long
+names truncate inside their own cell. Grid items, preview controls, sidebars and
+selection toolbars stay bounded by their containing viewport. Validate list,
+grid and preview pages at 320, 390, 600, 768, 1024 and 1440 px after layout edits;
+do not hide document-level overflow to conceal a broken width calculation.
+
 Mount `dist` read-only at `/opt/openlist/web` and set backend `dist_dir` to that
 path. See the paired [backend fork](https://github.com/flyfish-dev/openlist/tree/flyfish/tools/flyfish)
 for migration and Compose examples. Keep backend dynamic configuration injection
