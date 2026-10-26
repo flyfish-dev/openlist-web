@@ -1,5 +1,6 @@
 import axios from "axios"
 import { api, log } from "."
+import { clearResidentPreviews } from "~/flyfish/preview-session"
 
 const instance = axios.create({
   baseURL: api + "/api",
@@ -73,6 +74,7 @@ instance.defaults.headers.common["Authorization"] =
   localStorage.getItem("token") || ""
 
 export const changeToken = (token?: string) => {
+  clearResidentPreviews()
   instance.defaults.headers.common["Authorization"] = token ?? ""
   localStorage.setItem("token", token ?? "")
 }

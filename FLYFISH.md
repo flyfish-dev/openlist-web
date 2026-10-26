@@ -30,7 +30,8 @@ the 12 GiB Node heap allowance is not a server runtime memory requirement.
 `src/flyfish/routing.json` is the native-first policy. Images, audio, video, PDF,
 text/code/Markdown and archives keep their existing OpenList preview first.
 Office and specialist formats prefer File Viewer; original preview choices and
-downloads remain available. The runtime bundle is lazy-loaded on selection.
+downloads remain available. The shared runtime is warmed once during browser
+idle time (or on demand with data saving enabled); document engines stay lazy.
 URL-first Geo3D adapters keep the original authorized URL and perform their own
 bounded range probes instead of an eager whole-file Web-component download.
 External sidecar resources still need valid OpenList authorization; prefer
@@ -55,6 +56,30 @@ For share pages, enable OpenList's `share_preview` setting and leave
 `share_preview_download_by_default` off when a preview should open first.
 `share_archive_preview` remains a separate permission gate; enabling ordinary
 document previews does not enable archive browsing or publish private storage.
+
+## Resident Preview Sessions
+
+Small, versioned static documents keep their live preview surface while browsing
+folders. Reopening one reattaches the same DOM, search state and controller,
+without another file download or parse. A new document can recycle an idle LRU
+controller instead of rebuilding its shell, registry and plugin configuration.
+The brand's Home link uses client-side navigation, not a document reload.
+
+Retention is tab-local: at most three surfaces, a 64 MiB estimated budget, five
+minutes of idle retention and an 8 MiB input-file limit. Low-memory devices use
+two surfaces and 24 MiB. These are conservative retention budgets, not a hard
+limit on browser heap or the memory needed by a single active document. Images,
+canvases and DOM size contribute to the estimate. GPU/streaming viewers and
+large files release their document resources when closed.
+
+Only public, versioned Office worker assets may be prefetched on hover/focus;
+idle warming never fetches a private file. File metadata and access permission
+are revalidated before enhanced previews are reused, including Browser Back.
+The exact authorized URL, filename, size and modification revision identify a
+document; login identity, permissions and directory/share password isolate its
+scope. Logout/token changes, denied access, explicit refresh and page exit clear
+the pool. Files and credentials are never placed in IndexedDB, localStorage,
+a service-worker cache or an external conversion service by this feature.
 
 ## Deployment And Licenses
 

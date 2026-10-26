@@ -12,7 +12,10 @@ import {
   clearHistory,
   me,
   shouldKeepState,
+  HistoryMap,
 } from "~/store"
+import { fileViewerPolicy } from "~/flyfish/preview-policy"
+import { clearResidentPreviews } from "~/flyfish/preview-session"
 import {
   fsGet,
   fsList,
@@ -107,7 +110,16 @@ export const usePath = () => {
     cancelList?.()
     retry_pass = rp ?? false
     ObjStore.setErr("")
-    if (hasHistory(path, index)) {
+    const history = HistoryMap.get(getHistoryKey(path, index))?.obj as
+      { state?: State; obj?: { name?: string } } | undefined
+    const policy = fileViewerPolicy(history?.obj?.name ?? "")
+    const revalidatePreview =
+      history?.state === State.File &&
+      policy.available &&
+      (policy.preferred || searchParams["preview"] === "flyfish")
+    // Browser Back must validate permissions and file metadata before a resident
+    // surface is eligible for reuse; rendered pages are not an auth cache.
+    if (hasHistory(path, index) && !revalidatePreview) {
       log(`handle [${getHistoryKey(path, index)}] from history`)
       return recoverHistory(path, index)
     } else if (IsDirRecord[path]) {
@@ -223,6 +235,7 @@ export const usePath = () => {
     handleFolder,
     setPathAs,
     refresh: async (retry_pass?: boolean, force?: boolean) => {
+      clearResidentPreviews()
       const path = pathname()
       const scroll = window.scrollY
       clearHistory(path, globalPage)

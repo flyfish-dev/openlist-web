@@ -1,17 +1,24 @@
 import { createEffect, createSignal, onCleanup, Show } from "solid-js"
 import { useColorMode } from "@hope-ui/solid"
-import type { ViewerController } from "@file-viewer/web"
+import type { ResidentLease } from "~/flyfish/resident-viewer"
 import { useLink } from "~/hooks"
 import { objStore } from "~/store"
 import { fileViewerPolicy, sameOriginFileUrl } from "~/flyfish/preview-policy"
+import {
+  acquireResidentPreview,
+  residentPreviewStatistics,
+} from "~/flyfish/preview-session"
+import { previewAuthorizationScope } from "~/flyfish/PreviewSessions"
 
 export default function FlyfishPreview() {
   const { currentObjLink, proxyLink } = useLink()
   const { colorMode } = useColorMode()
   const [error, setError] = createSignal("")
   const [loading, setLoading] = createSignal(true)
+  const [cacheHit, setCacheHit] = createSignal(false)
   let host!: HTMLDivElement
-  let viewer: ViewerController | undefined
+  let section!: HTMLElement
+  let lease: ResidentLease | undefined
   let generation = 0
 
   createEffect(() => {
@@ -25,46 +32,76 @@ export default function FlyfishPreview() {
     )
     if (enhanced) url.searchParams.set("d", "1")
     const theme = colorMode()
+    const size = objStore.obj.size
+    const revision = objStore.obj.modified
+    const scope = previewAuthorizationScope()
     const current = ++generation
-    viewer?.destroy()
-    viewer = undefined
+    lease?.release()
+    lease = undefined
+    const abort = new AbortController()
     setError("")
     setLoading(true)
-    import("~/flyfish/viewer-runtime")
-      .then(({ mountFlyfishViewer }) => {
-        if (current !== generation) return
-        viewer = mountFlyfishViewer(host, {
+    delete section.dataset.flyfishReadyMs
+    setCacheHit(false)
+    void acquireResidentPreview(
+      host,
+      {
+        source: {
           url: sameOriginFileUrl(url.href, location.origin),
           filename: name,
-          size: objStore.obj.size,
+          size,
           options: { theme },
-          onStateChange: (state) => {
-            if (current !== generation) return
-            setLoading(state.loading)
-            if (state.error)
-              setError(
-                "此文件超出当前引擎的能力边界，请切换原生预览或下载原文件。",
-              )
-          },
-        })
+        },
+        revision,
+        scope,
+      },
+      ({ state, instance, cacheHit, readyMs }) => {
+        if (current !== generation) return
+        setLoading(state.loading)
+        setCacheHit(cacheHit)
+        setError(
+          state.error
+            ? "此文件超出当前引擎的能力边界，请切换原生预览或下载原文件。"
+            : "",
+        )
+        section.dataset.flyfishInstance = String(instance)
+        section.dataset.flyfishCacheHit = String(cacheHit)
+        if (readyMs !== null)
+          section.dataset.flyfishReadyMs = readyMs.toFixed(1)
+        const stats = residentPreviewStatistics()
+        if (stats) section.dataset.flyfishSessions = String(stats.resident)
+      },
+      abort.signal,
+    )
+      .then((result) => {
+        if (current !== generation || abort.signal.aborted) result?.release()
+        else lease = result
       })
       .catch(() => {
         if (current !== generation) return
         setLoading(false)
         setError("预览引擎加载失败，可切换原生预览或下载原文件。")
       })
-  })
-  onCleanup(() => {
-    generation++
-    viewer?.destroy()
+    onCleanup(() => {
+      abort.abort()
+      generation++
+      lease?.release()
+      lease = undefined
+    })
   })
 
   const definition = () => fileViewerPolicy(objStore.obj.name).definition
   return (
-    <section class="flyfish-preview" aria-label="Flyfish File Viewer">
+    <section
+      ref={section}
+      class="flyfish-preview"
+      aria-label="Flyfish File Viewer"
+      aria-busy={loading()}
+    >
       <div class="flyfish-preview-meta">
         <span>
-          FILE VIEWER <b>本地预览</b>
+          FILE VIEWER{" "}
+          <b>{cacheHit() && !loading() ? "会话已复用" : "本地预览"}</b>
         </span>
         <span>
           {definition()?.supportLevel} ·{" "}
@@ -79,7 +116,7 @@ export default function FlyfishPreview() {
       </Show>
       <Show when={loading()}>
         <p class="flyfish-preview-loading" role="status">
-          正在按需加载预览引擎…
+          正在打开文件…
         </p>
       </Show>
       <Show when={error()}>
@@ -87,7 +124,11 @@ export default function FlyfishPreview() {
           {error()}
         </p>
       </Show>
-      <div ref={host} class="flyfish-viewer-host" />
+      <div
+        ref={host}
+        class="flyfish-viewer-host"
+        style={{ visibility: loading() || error() ? "hidden" : undefined }}
+      />
     </section>
   )
 }

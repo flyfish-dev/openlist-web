@@ -7,6 +7,7 @@ import { Footer } from "./Footer"
 import { Header } from "./header/Header"
 import { Toolbar } from "./toolbar/Toolbar"
 import { BrandHero } from "~/flyfish/Brand"
+import { PreviewSessions } from "~/flyfish/PreviewSessions"
 
 const Index = () => {
   useTitle(getSetting("site_title"))
@@ -16,6 +17,7 @@ const Index = () => {
   }
   return (
     <div class="flyfish-site">
+      <PreviewSessions />
       <Header />
       <BrandHero />
       <Toolbar />

@@ -3,10 +3,15 @@ import { useRouter } from "~/hooks"
 import { objStore, State } from "~/store"
 import catalog from "./catalog.generated.json"
 import brandLogo from "./logo.png"
+import { LinkWithBase } from "~/components/LinkWithBase"
 
 export function BrandMark() {
   return (
-    <a class="flyfish-brand" href="/" aria-label="Flyfish Drive 首页">
+    <LinkWithBase
+      class="flyfish-brand"
+      href="/"
+      aria-label="Flyfish Drive 首页"
+    >
       <img src={brandLogo} alt="Flyfish" width="38" height="38" />
       <span>
         <strong>
@@ -14,7 +19,7 @@ export function BrandMark() {
         </strong>
         <small>自由连接 · 安全共享</small>
       </span>
-    </a>
+    </LinkWithBase>
   )
 }
 

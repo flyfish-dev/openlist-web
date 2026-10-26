@@ -36,14 +36,20 @@ test("every canonical extension has a route with an honest support status", () =
   }
 })
 
-test('optional BIM and streaming metadata are routed without stealing ordinary images or JSON', () => {
-  for (const name of ['building.ifc', 'terrain.laz', 'terrain.copc.laz', 'tileset.json', 'map.city.json']) {
+test("optional BIM and streaming metadata are routed without stealing ordinary images or JSON", () => {
+  for (const name of [
+    "building.ifc",
+    "terrain.laz",
+    "terrain.copc.laz",
+    "tileset.json",
+    "map.city.json",
+  ]) {
     const result = policy.fileViewerPolicy(name)
     assert.equal(result.preferred, true, name)
-    assert.equal(result.definition.status, 'experimental', name)
+    assert.equal(result.definition.status, "experimental", name)
   }
-  assert.equal(policy.fileViewerPolicy('ordinary.json').preferred, false)
-  assert.equal(policy.fileViewerPolicy('ordinary.tiff').preferred, false)
+  assert.equal(policy.fileViewerPolicy("ordinary.json").preferred, false)
+  assert.equal(policy.fileViewerPolicy("ordinary.tiff").preferred, false)
 })
 
 test("native image, media, PDF and text remain the first preview", () => {
@@ -76,6 +82,43 @@ test("enhanced document and specialist formats prefer File Viewer", () => {
 
 test("the alternate renderer cannot bypass archive-read permissions", () => {
   assert.equal(policy.fileViewerPolicy("private.zip", false).available, false)
+})
+
+test("resident retention is bounded to small versioned static documents, never GPU or streaming assets", () => {
+  for (const name of ["report.docx", "deck.pptx", "mail.eml", "sheet.xlsx"]) {
+    assert.equal(
+      policy.residentPreviewPolicy(name, 1024, "revision-1").retain,
+      true,
+      name,
+    )
+  }
+  for (const name of [
+    "model.stl",
+    "building.ifc",
+    "terrain.copc.laz",
+    "sample.geojson",
+    "movie.mp4",
+  ]) {
+    assert.equal(
+      policy.residentPreviewPolicy(name, 1024, "revision-1").retain,
+      false,
+      name,
+    )
+  }
+  assert.equal(
+    policy.residentPreviewPolicy("large.docx", 9 * 1024 * 1024, "revision-1")
+      .retain,
+    false,
+  )
+  assert.equal(
+    policy.residentPreviewPolicy("unknown-size.docx", undefined, "revision-1")
+      .retain,
+    false,
+  )
+  assert.equal(
+    policy.residentPreviewPolicy("unversioned.docx", 1024, "").retain,
+    false,
+  )
 })
 
 test("unknown formats and hostile file URLs do not become a fetch proxy", () => {
